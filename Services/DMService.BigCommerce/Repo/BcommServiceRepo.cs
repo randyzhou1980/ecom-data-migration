@@ -13,5 +13,7 @@ namespace DMService.BigCommerce.Repo
         }
         #endregion
         public IBCommCustomerService CustomerService => new BCommCustomerService(_settings);
+        public IBCommCategoryService CategoryService => new BCommCategoryService(_settings);
+        public IBCommProductService ProductService => new BCommProductService(_settings);
     }
 }

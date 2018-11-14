@@ -12,11 +12,19 @@ namespace DMService.Neto
 
         public string RootUrl => $"https://{Setting.SiteUrl}/do/WS/NetoAPI";
 
-        // Customer
+        #region Customer
         public class CustomerOperations
         {
             public static string AddCustomer => $"AddCustomer";
         }
+        #endregion
+
+        #region Category
+        public class CategoryOperations
+        {
+            public static string AddCategory => $"AddCategory";
+        }
+        #endregion
     }
 
     public class NetoSetting

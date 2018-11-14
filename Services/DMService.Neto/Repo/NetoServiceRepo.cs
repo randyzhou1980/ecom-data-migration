@@ -12,7 +12,14 @@ namespace DMService.Neto.Repo
             _settings = config.Value;
         }
         #endregion
+
         public INetoCustomerConverter CustomerConverter => new NetoCustomerConverter();
         public INetoCustomerService CustomerService => new NetoCustomerService(_settings);
+
+        public INetoCategoryConverter CategoryConverter => new NetoCategoryConverter();
+        public INetoCategoryService CategoryService => new NetoCategoryService(_settings);
+
+        public INetoProductConverter ProductConverter => new NetoProductConverter();
+
     }
 }

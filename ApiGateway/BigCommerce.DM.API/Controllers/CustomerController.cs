@@ -27,7 +27,7 @@ namespace BigCommerce.DM.API.Controllers
 
         [HttpPost]
         [Route("customersToNeto")]
-        [ProducesResponseType(typeof(CustomerResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BigCommerceResponse), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> ConvertCustomersToNetoAsync()
         {
             try
@@ -47,7 +47,7 @@ namespace BigCommerce.DM.API.Controllers
 
                 var response = await _netoRepo.CustomerService.AddCustomersAsync(netoCustomers);
 
-                var result = new CustomerResponse();
+                var result = new BigCommerceResponse();
                 result.Status = response.Status == "Success";
                 result.TotalProcessed = bcommCustomers.Count();
                 result.Succeed = response.UserNames != null ? response.UserNames.Count() : 0;

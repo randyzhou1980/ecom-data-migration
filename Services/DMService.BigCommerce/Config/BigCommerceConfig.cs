@@ -12,14 +12,24 @@ namespace DMService.BigCommerce
         public BigCommerceSetting Setting { get; private set; }
         public string RootUrl => $"https://api.bigcommerce.com/stores/{Setting.StoreId}/";
 
-        // Customer
+        #region Customer
         public class CustomerOperations
         {
             public static string GetCustomers => $"v2/customers";
             public static string GetCustomerAddresses(int customerId) => $"v2/customers/{customerId}/addresses";
             public static string GetCustomerGroup(int groupId) => $"v2/customer_groups/{groupId}";
         }
+        #endregion
 
+        #region Catalog
+        public class CatalogOperations
+        {
+            public static string GetCategories => $"v3/catalog/categories";
+            public static string GetProducts => $"v3/catalog/products";
+            public static string GetProductBrand(int brandId) => $"v3/catalog/brands/{brandId}";
+            public static string GetProductImages(int productId) => $"v3/catalog/products/{productId}/images";
+        }
+        #endregion
     }
 
     public class BigCommerceSetting

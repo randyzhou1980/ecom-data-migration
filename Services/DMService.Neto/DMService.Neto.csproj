@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\Shared\Service.Abstractions\Service.Abstractions.csproj" />
     <ProjectReference Include="..\DMEntity.BigCommerce\DMEntity.BigCommerce.csproj" />
     <ProjectReference Include="..\DMEntity.Neto\DMEntity.Neto.csproj" />
+    <ProjectReference Include="..\DMEntity.Shopify\DMEntity.Shopify.csproj" />
   </ItemGroup>
 
   <ItemGroup>

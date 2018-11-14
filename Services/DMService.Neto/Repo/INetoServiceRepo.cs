@@ -6,5 +6,10 @@ namespace DMService.Neto.Repo
     {
         INetoCustomerConverter CustomerConverter { get; }
         INetoCustomerService CustomerService { get; }
+
+        INetoCategoryConverter CategoryConverter { get; }
+        INetoCategoryService CategoryService { get; }
+
+        INetoProductConverter ProductConverter { get; }
     }
 }

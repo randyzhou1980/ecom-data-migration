@@ -2,7 +2,7 @@
 
 namespace BigCommerce.DM.API.Model
 {
-    public class CustomerResponse
+    public class BigCommerceResponse
     {
         public bool Status { get; set; }
         public int TotalProcessed { get; set; }
