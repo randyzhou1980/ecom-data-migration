@@ -248,6 +248,8 @@ namespace Magento.RestApi
         /// <returns>The authorization url where the logged in user can authorize the application</returns>
         private string Login(MagentoWebClient webClient, string loginUrl, string userName, string password, string oauthToken)
         {
+            HttpWebResponse response = null;
+
             // Get the login page and find the form post action url and the formkey
             var loginPage = new HtmlDocument();
             try
@@ -259,7 +261,7 @@ namespace Magento.RestApi
             }
             catch (WebException ex)
             {
-                var response = ex.Response as HttpWebResponse;
+                response = ex.Response as HttpWebResponse;
                 if(response != null && response.StatusCode == HttpStatusCode.NotFound) throw new MagentoApiException(string.Format("Unable to load admin page: '{0}'. This usually indicates the admin section of the magento installation is at a different url and a customadminurlpart was not set.", loginUrl), ex);
                 throw new MagentoApiException(string.Format("Unable to load admin page: '{0}'.", loginUrl), ex);
             }
@@ -291,7 +293,20 @@ namespace Magento.RestApi
             {
                 requestStream.Write(postDataBytes, 0, postDataBytes.Length);
             }
-            using (var response = postRequest.GetResponse())
+
+            try
+            {
+                response = postRequest.GetResponse() as HttpWebResponse;
+            }
+            catch (WebException e)
+            {
+                if (e.Message.Contains("302"))
+                {
+                    response = e.Response as HttpWebResponse;
+                }
+            }
+
+            if (response != null)
             {
                 var cookieheader = response.Headers["Set-Cookie"];
                 webClient.SetAdminHtmlFromCookie(cookieheader);
@@ -299,6 +314,8 @@ namespace Magento.RestApi
                 var location = response.Headers["location"];
                 return location;
             }
+
+            return null;
         }
 
         /// <summary>
@@ -327,12 +344,27 @@ namespace Magento.RestApi
             var cookieContainer = new CookieContainer();
             cookieContainer.Add(new Uri(getRequest.RequestUri.GetLeftPart(UriPartial.Authority)), new Cookie("adminhtml", webClient.AdminHtml));
             getRequest.CookieContainer = cookieContainer;
-            using (var response = getRequest.GetResponse())
+
+            HttpWebResponse response = null;
+            try
             {
-                // The location contains the callback url and the oauth verifier
+                response = getRequest.GetResponse() as HttpWebResponse;
+            }
+            catch (WebException e)
+            {
+                if (e.Message.Contains("302"))
+                {
+                    response = e.Response as HttpWebResponse;
+                }
+            }
+
+            if (response != null)
+            {
                 var location = response.Headers["location"];
                 return location.Substring(location.IndexOf("oauth_verifier=", StringComparison.Ordinal)).Replace("oauth_verifier=", "");
             }
+
+            return null;
         }
 
         /// <summary>

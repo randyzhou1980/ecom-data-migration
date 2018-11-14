@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Services\DMEntity.Neto\DMEntity.Neto.csproj" />
     <ProjectReference Include="..\..\Services\DMService.Magento\DMService.Magento.csproj" />
+    <ProjectReference Include="..\..\Services\DMService.Neto\DMService.Neto.csproj" />
     <ProjectReference Include="..\..\Shared\Api.Extensions\Api.Extensions.csproj" />
   </ItemGroup>
 

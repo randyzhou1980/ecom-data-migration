@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DMEntity.Magento\DMEntity.Magento.csproj" />
     <ProjectReference Include="..\Magento.RestApi.NetCore\Magento.RestApi.NetCore.csproj" />
   </ItemGroup>
 
