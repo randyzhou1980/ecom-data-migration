@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Api.Extensions;
-using DMService.Magento.Config;
-using DMService.Magento.Repo;
 using DMService.Neto;
 using DMService.Neto.Repo;
+using DMService.WooCommerce.Config;
+using DMService.WooCommerce.Repo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -16,7 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace Magento.DM.API
+namespace WooCommerce.DM.API
 {
     public class Startup
     {
@@ -36,12 +36,12 @@ namespace Magento.DM.API
 
             services.AddCorsPolicy();
 
-            services.Configure<MagentoSetting>(Configuration.GetSection("apiSettings:magentoSetting"));
+            services.Configure<WooCommerceSetting>(Configuration.GetSection("apiSettings:wooCommerceSetting"));
             services.Configure<NetoSetting>(Configuration.GetSection("apiSettings:netoSetting"));
 
-            services.AddSwaggerGen(Configuration["ApiVersion"], "Magento");
+            services.AddSwaggerGen(Configuration["ApiVersion"], "WooCommerce");
 
-            services.AddTransient<IMagentoServiceRepo, MagentoServiceRepo>();
+            services.AddTransient<IWCommServiceRepo, WCommServiceRepo>();
             services.AddTransient<INetoServiceRepo, NetoServiceRepo>();
         }
 
@@ -62,7 +62,7 @@ namespace Magento.DM.API
 
             app.UseMvcWithDefaultRoute();
 
-            app.UseSwagger(Configuration["ApiVersion"], "Magento");
+            app.UseSwagger(Configuration["ApiVersion"], "WooCommerce");
         }
     }
 }

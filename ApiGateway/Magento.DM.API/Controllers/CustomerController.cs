@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using DMService.Magento.Repo;
+using DMService.Neto.Repo;
 using Magento.DM.API.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +18,11 @@ namespace Magento.DM.API.Controllers
     {
         #region Constructor
         private readonly IMagentoServiceRepo _magentoRepo;
-        public CustomerController(IMagentoServiceRepo magentoRepo)
+        private readonly INetoServiceRepo _netoRepo;
+        public CustomerController(IMagentoServiceRepo magentoRepo, INetoServiceRepo netoRepo)
         {
             _magentoRepo = magentoRepo;
+            _netoRepo = netoRepo;
         }
         #endregion
 

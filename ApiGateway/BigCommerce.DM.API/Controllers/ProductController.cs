@@ -36,13 +36,15 @@ namespace BigCommerce.DM.API.Controllers
             {
                 var bcommProducts = await _bCommRepo.ProductService.GetProductsAsync();
 
+                // TODO:: Get Neto Categories
+
                 var netoProducts = new List<Product>();
 
                 foreach(var bcommProduct in bcommProducts)
                 {
-                    bcommProduct.ProductBrand = await _bCommRepo.ProductService.GetProductBrandAsync(bcommProduct.Brand_id);
-                    bcommProduct.ProductCategories = await _bCommRepo.CategoryService.GetCategoriesByIdsAsync(bcommProduct.Categories);
+                    bcommProduct.Brand = await _bCommRepo.ProductService.GetProductBrandAsync(bcommProduct.Brand_id);
                     bcommProduct.Images = await _bCommRepo.ProductService.GetProductImagesAsync(bcommProduct.Id);
+                    bcommProduct.Variants = await _bCommRepo.ProductService.GetProductVariantByProductIdAsync(bcommProduct.Id);
 
                     netoProducts.Add(_netoRepo.ProductConverter.ConvertToProduct(bcommProduct));
                 }

@@ -28,6 +28,7 @@ namespace DMService.BigCommerce
             public static string GetProducts => $"v3/catalog/products";
             public static string GetProductBrand(int brandId) => $"v3/catalog/brands/{brandId}";
             public static string GetProductImages(int productId) => $"v3/catalog/products/{productId}/images";
+            public static string GetProductVariants(int productId) => $"v3/catalog/products/{productId}/variants";
         }
         #endregion
     }

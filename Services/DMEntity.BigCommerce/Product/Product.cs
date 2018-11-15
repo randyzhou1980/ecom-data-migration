@@ -8,6 +8,7 @@ namespace DMEntity.BigCommerce
     {
         public int Id { get; set; }
         public string SKU { get; set; }
+        public string ParentSKU { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
@@ -21,13 +22,12 @@ namespace DMEntity.BigCommerce
         public decimal Cost_price { get; set; }
         public decimal Retail_price { get; set; }
         public decimal Sale_price { get; set; }
-        public decimal Calculated_price { get; set; }
 
         public bool Is_free_shipping { get; set; }
         public decimal Fixed_cost_shipping_price { get; set; }
 
         public int Brand_id { get; set; }
-        public Brand ProductBrand { get; set; }
+        public ProductBrand Brand { get; set; }
 
         public bool Is_visible { get; set; }
         public bool Is_featured { get; set; }
@@ -45,14 +45,19 @@ namespace DMEntity.BigCommerce
         public bool Is_preorder_only { get; set; }
         public int Total_sold { get; set; }
 
+        public string Search_keywords { get; set; }
+        public string Page_title { get; set; }
+        public string Meta_description { get; set; }
+
         public string Inventory_tracking { get; set; }
         public int Inventory_level { get; set; }
         public int Inventory_warning_level { get; set; }
 
         public IEnumerable<int> Categories { get; set; }
-        public IEnumerable<Category> ProductCategories { get; set; }
 
         public IEnumerable<ProductImage> Images { get; set; }
+
+        public IEnumerable<Product> Variants { get; set; }
     }
 
     public class ProductImage
@@ -64,7 +69,7 @@ namespace DMEntity.BigCommerce
         public string Url_standard { get; set; }
     }
 
-    public class Brand
+    public class ProductBrand
     {
         public int Id { get; set; }
         public string Name { get; set; }

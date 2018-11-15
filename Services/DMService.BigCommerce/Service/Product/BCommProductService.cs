@@ -29,7 +29,7 @@ namespace DMService.BigCommerce.Service
             return JsonConvert.DeserializeObject<IEnumerable<Product>>(result["data"].ToString());
         }
 
-        public async Task<Brand> GetProductBrandAsync(int brandId)
+        public async Task<ProductBrand> GetProductBrandAsync(int brandId)
         {
             var data = await GetStringAsync(BCommConfig.RootUrl + BigCommerceConfig.CatalogOperations.GetProductBrand(brandId));
             if (string.IsNullOrWhiteSpace(data))
@@ -39,7 +39,7 @@ namespace DMService.BigCommerce.Service
 
             var result = JObject.Parse(data);
 
-            return JsonConvert.DeserializeObject<Brand>(result["data"].ToString());
+            return JsonConvert.DeserializeObject<ProductBrand>(result["data"].ToString());
         }
 
         public async Task<IEnumerable<ProductImage>> GetProductImagesAsync(int productId)
@@ -53,6 +53,19 @@ namespace DMService.BigCommerce.Service
             var result = JObject.Parse(data);
 
             return JsonConvert.DeserializeObject<IEnumerable<ProductImage>>(JObject.Parse(data)["data"].ToString());
+        }
+
+        public async Task<IEnumerable<Product>> GetProductVariantByProductIdAsync(int productId)
+        {
+            var data = await GetStringAsync(BCommConfig.RootUrl + BigCommerceConfig.CatalogOperations.GetProductVariants(productId));
+            if (string.IsNullOrWhiteSpace(data))
+            {
+                return null;
+            }
+
+            var result = JObject.Parse(data);
+
+            return JsonConvert.DeserializeObject<IEnumerable<Product>>(result["data"].ToString());
         }
     }
 }
