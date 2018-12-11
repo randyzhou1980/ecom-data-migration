@@ -1,17 +1,22 @@
-﻿using Api.Extensions;
-using DMService.BigCommerce;
-using DMService.BigCommerce.Repo;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Api.Extensions;
 using DMService.Logger.Config;
 using DMService.Logger.Repo;
-using DMService.Neto;
-using DMService.Neto.Repo;
+using Logging.DM.API.Model;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
-namespace BigCommerce.DM.API
+namespace Logging.DM.API
 {
     public class Startup
     {
@@ -31,15 +36,11 @@ namespace BigCommerce.DM.API
 
             services.AddCorsPolicy();
 
-            services.Configure<BigCommerceSetting>(Configuration.GetSection("apiSettings:bigCommerceSetting"));
-            services.Configure<NetoSetting>(Configuration.GetSection("apiSettings:netoSetting"));
-            services.Configure<LoggerConfig>(Configuration.GetSection("Logging"));
+            var connectionString = Configuration.GetSection("Logging:LogDB:connectionString").Value;
 
-            services.AddSwaggerGen(Configuration["ApiVersion"], "BigCommerce");
+            services.AddDbContext<DMLogContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddTransient<IBCommServiceRepo, BcommServiceRepo>();
-            services.AddTransient<INetoServiceRepo, NetoServiceRepo>();
-            services.AddScoped<ILoggerServiceRepo, LoggerServiceRepo>();
+            services.AddSwaggerGen(Configuration["ApiVersion"], "Logger");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,7 +60,7 @@ namespace BigCommerce.DM.API
 
             app.UseMvcWithDefaultRoute();
 
-            app.UseSwagger(Configuration["ApiVersion"], "BigCommerce");
+            app.UseSwagger(Configuration["ApiVersion"], "Logger");
         }
     }
 }

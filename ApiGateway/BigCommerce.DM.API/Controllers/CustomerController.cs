@@ -1,5 +1,6 @@
 ﻿using BigCommerce.DM.API.Model;
 using DMService.BigCommerce.Repo;
+using DMService.Logger.Repo;
 using DMService.Neto.Repo;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,10 +19,12 @@ namespace BigCommerce.DM.API.Controllers
         #region Constructor
         private readonly IBCommServiceRepo _bCommRepo;
         private readonly INetoServiceRepo _netoRepo;
-        public CustomerController(IBCommServiceRepo bCommRepo, INetoServiceRepo netoRepo)
+        private readonly ILoggerServiceRepo _loggerRepo;
+        public CustomerController(IBCommServiceRepo bCommRepo, INetoServiceRepo netoRepo, ILoggerServiceRepo loggerRepo)
         {
             _bCommRepo = bCommRepo;
             _netoRepo = netoRepo;
+            _loggerRepo = loggerRepo;
         }
         #endregion
 
@@ -32,6 +35,8 @@ namespace BigCommerce.DM.API.Controllers
         {
             try
             {
+                _loggerRepo.Logger.Information("Convert Customers to Neto");
+
                 var bcommCustomers = await _bCommRepo.CustomerService.GetCustomersAsync();
 
                 var netoCustomers = new List<DMEntity.Neto.Customer>();
@@ -53,10 +58,15 @@ namespace BigCommerce.DM.API.Controllers
                 result.Succeed = response.UserNames != null ? response.UserNames.Count() : 0;
                 result.Errors = response.Errors;
 
+                foreach(var error in result.Errors)
+                {
+                    _loggerRepo.Logger.Error(error);
+                }
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                _loggerRepo.Logger.Error(ex, "Convert Customers to Neto");
                 return BadRequest(ex.Message);
             }
         }

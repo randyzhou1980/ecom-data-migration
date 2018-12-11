@@ -10,15 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.6" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Services\DMEntity.BigCommerce\DMEntity.BigCommerce.csproj" />
-    <ProjectReference Include="..\..\Services\DMEntity.Neto\DMEntity.Neto.csproj" />
-    <ProjectReference Include="..\..\Services\DMService.BigCommerce\DMService.BigCommerce.csproj" />
     <ProjectReference Include="..\..\Services\DMService.Logger\DMService.Logger.csproj" />
-    <ProjectReference Include="..\..\Services\DMService.Neto\DMService.Neto.csproj" />
     <ProjectReference Include="..\..\Shared\Api.Extensions\Api.Extensions.csproj" />
   </ItemGroup>
 
